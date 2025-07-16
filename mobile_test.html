@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#009CFF">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>Test Mobile - Panel Admin</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        .status-card {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .status-card.success {
+            background: rgba(40, 167, 69, 0.3);
+            border: 2px solid #28a745;
+        }
+        
+        .status-card.error {
+            background: rgba(220, 53, 69, 0.3);
+            border: 2px solid #dc3545;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 15px 25px;
+            margin: 10px 5px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            min-height: 44px;
+            min-width: 44px;
+            text-align: center;
+        }
+        
+        .btn:hover, .btn:active {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #009CFF 0%, #4DC7A0 100%);
+            border-color: #009CFF;
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            border-color: #28a745;
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #dc3545 0%, #fd7e14 100%);
+            border-color: #dc3545;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .info-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .info-section h3 {
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .info-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .info-section li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .info-section li:last-child {
+            border-bottom: none;
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                padding: 20px 15px;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .btn {
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Touch-friendly improvements */
+        @media (hover: none) and (pointer: coarse) {
+            .btn {
+                min-height: 44px;
+                min-width: 44px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📱 Test Mobile Panel Admin</h1>
+        
+        <div id="status" class="status-card">
+            🔄 Test de connexion en cours...
+        </div>
+        
+        <div class="grid">
+            <a href="admin.html" class="btn btn-primary">
+                🚀 Panel Admin
+            </a>
+            
+            <a href="test_simple.html" class="btn btn-success">
+                🧪 Tests API
+            </a>
+            
+            <a href="login.html" class="btn">
+                🔐 Login PHP
+            </a>
+        </div>
+        
+        <div class="info-section">
+            <h3>📋 Instructions</h3>
+            <ul>
+                <li>✅ Cliquez sur "Panel Admin" pour accéder</li>
+                <li>✅ Identifiants : admin / admin123</li>
+                <li>✅ Testez l'ajout/suppression de produits</li>
+                <li>✅ Testez la gestion des catégories</li>
+                <li>✅ Configurez les réseaux sociaux</li>
+            </ul>
+        </div>
+        
+        <div class="info-section">
+            <h3>📱 Optimisations Mobile</h3>
+            <ul>
+                <li>✅ Interface responsive</li>
+                <li>✅ Boutons tactiles optimisés</li>
+                <li>✅ Navigation au doigt</li>
+                <li>✅ Compatible Netlify</li>
+                <li>✅ Performance optimisée</li>
+            </ul>
+        </div>
+        
+        <div class="info-section">
+            <h3>🔧 Fonctionnalités</h3>
+            <ul>
+                <li>✅ Gestion des produits</li>
+                <li>✅ Gestion des catégories</li>
+                <li>✅ Configuration réseaux sociaux</li>
+                <li>✅ Statistiques en temps réel</li>
+                <li>✅ Recherche instantanée</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Test de connexion aux APIs
+        async function testAPIs() {
+            const statusDiv = document.getElementById('status');
+            
+            try {
+                // Test API Produits
+                const productsResponse = await fetch('./products_api.php?page=1&limit=1');
+                const productsData = await productsResponse.json();
+                
+                // Test API Catégories
+                const categoriesResponse = await fetch('./categories_api.php');
+                const categoriesData = await categoriesResponse.json();
+                
+                statusDiv.className = 'status-card success';
+                statusDiv.innerHTML = `
+                    ✅ APIs fonctionnelles<br>
+                    📦 ${productsData.products?.length || 0} produits<br>
+                    📂 ${categoriesData.categories?.length || 0} catégories<br>
+                    🚀 Prêt à utiliser !
+                `;
+            } catch (error) {
+                statusDiv.className = 'status-card error';
+                statusDiv.innerHTML = `
+                    ❌ Erreur de connexion<br>
+                    ${error.message}<br>
+                    🔧 Vérifiez la configuration
+                `;
+            }
+        }
+        
+        // Test au chargement
+        testAPIs();
+        
+        // Test de la taille d'écran
+        function checkScreenSize() {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            console.log(`Écran: ${width}x${height}`);
+        }
+        
+        // Vérifier la taille d'écran
+        checkScreenSize();
+        window.addEventListener('resize', checkScreenSize);
+        
+        // Améliorer l'expérience tactile
+        document.addEventListener('touchstart', function() {}, {passive: true});
+    </script>
+</body>
+</html>

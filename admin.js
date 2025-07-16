@@ -1,6 +1,9 @@
 // Configuration
 const API_BASE_URL = './products_api.php';
 const CATEGORIES_API_URL = './categories_api.php';
+// Configuration pour Netlify (si nécessaire)
+// const API_BASE_URL = '/.netlify/functions/api/products.php';
+// const CATEGORIES_API_URL = '/.netlify/functions/api/categories.php';
 const ADMIN_CREDENTIALS = {
     username: 'admin',
     password: 'admin123'
