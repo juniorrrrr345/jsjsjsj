@@ -3,6 +3,11 @@
   command = ""
 
 [[redirects]]
+  from = "/"
+  to = "/index_admin.html"
+  status = 301
+
+[[redirects]]
   from = "/admin"
   to = "/admin.html"
   status = 301
@@ -15,6 +20,11 @@
 [[redirects]]
   from = "/test"
   to = "/test_simple.html"
+  status = 301
+
+[[redirects]]
+  from = "/mobile"
+  to = "/mobile_test.html"
   status = 301
 
 [[headers]]

@@ -44,7 +44,7 @@
       document.addEventListener('DOMContentLoaded', function() {
         const id = getQueryParam('id');
         if (!id) return;
-        fetch(`admin-dashboard/products_api.php?id=${id}`)
+        fetch(`products_api.php?id=${id}`)
           .then(res => res.json())
           .then(data => {
             const product = data.products && data.products.length ? data.products[0] : null;
@@ -52,10 +52,10 @@
             // Media
             let mediaHtml = '';
             if (product.media && product.media.match(/\.(jpg|jpeg|png|gif)$/i)) {
-              const imgSrc = product.media.startsWith('http') ? product.media : 'admin-dashboard/' + product.media.replace(/^\/?/, '');
+              const imgSrc = product.media.startsWith('http') ? product.media : product.media;
               mediaHtml = `<div class=\"slides\"><div class=\"slide slide-image\"><img src=\"${imgSrc}\" alt=\"Product\"></div></div>`;
             } else if (product.media && product.media.match(/\.(mp4|webm|ogg)$/i)) {
-              const vidSrc = product.media.startsWith('http') ? product.media : 'admin-dashboard/' + product.media.replace(/^\/?/, '');
+              const vidSrc = product.media.startsWith('http') ? product.media : product.media;
               mediaHtml = `<div class=\"slides\"><div class=\"slide slide-video\"><video src=\"${vidSrc}\" controls style=\"max-width:100%;border-radius:10px\"></video></div></div>`;
             } else {
               mediaHtml = `<div class=\"slides\"><div class=\"slide slide-image\"><img src=\"./images/dry-hash.jpg\" alt=\"Product\"></div></div>`;

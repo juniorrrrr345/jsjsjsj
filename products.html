@@ -71,7 +71,7 @@
         products.forEach(product => {
           let imgSrc = './images/hModuTC.jpeg';
           if (product.media && product.media !== '') {
-            imgSrc = product.media.startsWith('http') ? product.media : 'admin-dashboard/' + product.media.replace(/^\/?/, '');
+            imgSrc = product.media.startsWith('http') ? product.media : product.media;
           }
           const card = document.createElement('div');
           card.className = 'p-card';
@@ -100,7 +100,7 @@
       }
 
       function fetchAndRenderProducts(search = '') {
-        fetch('admin-dashboard/products_api.php?page=1&limit=100&search=' + encodeURIComponent(search))
+        fetch('products_api.php?page=1&limit=100&search=' + encodeURIComponent(search))
           .then(res => res.json())
           .then(data => {
             renderProducts(data.products || []);
