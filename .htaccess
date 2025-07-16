@@ -6,6 +6,9 @@ RewriteRule ^index\.php$ /login.html [R=301,L]
 RewriteRule ^products\.html$ /login.html [R=301,L]
 RewriteRule ^productcard\.html$ /login.html [R=301,L]
 
+# Rediriger la racine vers login
+RewriteRule ^$ /login.html [R=301,L]
+
 # Permettre l'accès aux fichiers admin
 RewriteCond %{REQUEST_URI} !^/admin\.html
 RewriteCond %{REQUEST_URI} !^/login\.html
