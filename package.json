@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vercel dev",
     "build": "echo 'Build completed'",
-    "start": "vercel dev"
+    "start": "vercel dev",
+    "netlify-build": "echo 'Netlify build completed'"
   },
   "keywords": [
     "ecommerce",

@@ -1,5 +1,5 @@
 // Configuration
-const API_BASE_URL = './products_api.php';
+const API_BASE_URL = './admin-api.js';
 const ADMIN_CREDENTIALS = {
     username: 'admin',
     password: 'admin123'
@@ -134,7 +134,7 @@ function switchSection(sectionName) {
 // Gestion des produits
 async function loadProducts() {
     try {
-        const response = await fetch(`${API_BASE_URL}?page=1&limit=100`);
+        const response = await fetchAPI(`${API_BASE_URL}?page=1&limit=100`);
         const data = await response.json();
         
         if (data.products) {
@@ -292,7 +292,7 @@ async function handleProductSubmit(e) {
     }
 
     try {
-        const response = await fetch(API_BASE_URL, {
+        const response = await fetchAPI(API_BASE_URL, {
             method: 'POST',
             body: formData
         });
@@ -338,11 +338,8 @@ async function confirmDeleteProduct() {
     const productId = modal.dataset.productId;
 
     try {
-        const response = await fetch(API_BASE_URL, {
+        const response = await fetchAPI(API_BASE_URL, {
             method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
             body: `id=${productId}`
         });
 
@@ -365,7 +362,7 @@ async function confirmDeleteProduct() {
 // Statistiques
 async function updateStats() {
     try {
-        const response = await fetch(`${API_BASE_URL}?page=1&limit=1000`);
+        const response = await fetchAPI(`${API_BASE_URL}?page=1&limit=1000`);
         const data = await response.json();
         
         if (data.products) {
