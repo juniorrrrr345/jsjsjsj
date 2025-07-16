@@ -1,172 +1,189 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="boutique.css" />
-    <title>Document</title>
-  </head>
-  <body>
-    <header>
-      <h1 class="gradient-text">Bienvenue Dans L'Univers</h1>
-      <div class="logo">
-        <img src="./images/logo.png" alt="" />
-      </div>
-    </header>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AVEC AMOUR - Panel Administrateur</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    <div class="home-boxes">
-      <div class="box">
-        <div class="box-top">
-          <div class="box-top-left">
-            <i class="ri-truck-line"></i>
-            <h3>Nos Services</h3>
-          </div>
-          <i class="ri-arrow-drop-down-line toggle-btn"></i>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 600px;
+            padding: 40px 20px;
+        }
+
+        .logo {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient 3s ease infinite;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .admin-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .admin-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+            background: linear-gradient(45deg, #218838, #1ea085);
+        }
+
+        .features {
+            margin-top: 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .feature {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .feature i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #4ecdc4;
+        }
+
+        .feature h3 {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .feature p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            line-height: 1.4;
+        }
+
+        .loading {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .logo {
+                font-size: 2.5rem;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">AVEC AMOUR</div>
+        <div class="subtitle">Panel Administrateur</div>
+        
+        <a href="admin.html" class="admin-button">
+            <i class="ri-admin-line"></i>
+            Accéder au Panel Admin
+        </a>
+
+        <div class="features">
+            <div class="feature">
+                <i class="ri-shopping-bag-4-line"></i>
+                <h3>Gestion des Produits</h3>
+                <p>Ajoutez, modifiez et supprimez vos produits facilement</p>
+            </div>
+            <div class="feature">
+                <i class="ri-book-shelf-line"></i>
+                <h3>Gestion des Catégories</h3>
+                <p>Organisez vos produits par catégories</p>
+            </div>
+            <div class="feature">
+                <i class="ri-bar-chart-line"></i>
+                <h3>Statistiques</h3>
+                <p>Suivez vos performances en temps réel</p>
+            </div>
+            <div class="feature">
+                <i class="ri-shield-check-line"></i>
+                <h3>Sécurisé</h3>
+                <p>Accès protégé par authentification</p>
+            </div>
         </div>
-        <div class="box-bottom">
-          <p>
-            Bienvenue sur AVEC AMOUR ! Nous vous proposons une très large
-            sélection de produits sélectionnés par nos soins parmi ce qui se
-            fait de mieux dans le monde. Les meilleurs prix du marché, du
-            réassort fréquent et un service imbattable. 🚗
-            <br />
-            <br />
-            Livraisons/Meetup dans toute l'Ile de France, le jour même,envois de
-            France à France ou à l'international avec suivis,preuves de dépôts
-            et assurances. 📦
-          </p>
+
+        <div class="loading">
+            <i class="ri-loader-4-line"></i>
+            Redirection automatique dans <span id="countdown">5</span> secondes...
         </div>
-      </div>
-      <div class="box">
-        <div class="box-top">
-          <div class="box-top-left">
-            <i class="ri-map-pin-line"></i>
-            <h3>Zone de Livraison</h3>
-          </div>
-          <i class="ri-arrow-drop-down-line toggle-btn"></i>
-        </div>
-        <div class="box-bottom">
-          <p>
-            Bienvenue sur AVEC AMOUR ! Nous vous proposons une très large
-            sélection de produits sélectionnés par nos soins parmi ce qui se
-            fait de mieux dans le monde. Les meilleurs prix du marché, du
-            réassort fréquent et un service imbattable. 🚗
-            <br />
-            <br />
-            Livraisons/Meetup dans toute l'Ile de France, le jour même,envois de
-            France à France ou à l'international avec suivis,preuves de dépôts
-            et assurances. 📦
-          </p>
-        </div>
-      </div>
-      <div class="box">
-        <div class="box-top">
-          <div class="box-top-left">
-            <i class="ri-map-pin-line"></i>
-            <h3>Meet up</h3>
-          </div>
-          <i class="ri-arrow-drop-down-line toggle-btn"></i>
-        </div>
-        <div class="box-bottom">
-          <p>
-            Bienvenue sur AVEC AMOUR ! Nous vous proposons une très large
-            sélection de produits sélectionnés par nos soins parmi ce qui se
-            fait de mieux dans le monde. Les meilleurs prix du marché, du
-            réassort fréquent et un service imbattable. 🚗
-            <br />
-            <br />
-            Livraisons/Meetup dans toute l'Ile de France, le jour même,envois de
-            France à France ou à l'international avec suivis,preuves de dépôts
-            et assurances. 📦
-          </p>
-        </div>
-      </div>
-      <div class="box">
-        <div class="box-top">
-          <div class="box-top-left">
-            <i class="ri-service-fill"></i>
-            <h3>Notre Engagement</h3>
-          </div>
-          <i class="ri-arrow-drop-down-line toggle-btn"></i>
-        </div>
-        <div class="box-bottom">
-          <p>
-            Bienvenue sur AVEC AMOUR ! Nous vous proposons une très large
-            sélection de produits sélectionnés par nos soins parmi ce qui se
-            fait de mieux dans le monde. Les meilleurs prix du marché, du
-            réassort fréquent et un service imbattable. 🚗
-            <br />
-            <br />
-            Livraisons/Meetup dans toute l'Ile de France, le jour même,envois de
-            France à France ou à l'international avec suivis,preuves de dépôts
-            et assurances. 📦
-          </p>
-        </div>
-      </div>
-      <div class="box">
-        <div class="box-top">
-          <div class="box-top-left">
-            <i class="ri-bank-card-fill"></i>
-            <h3>Modes de Paiement</h3>
-          </div>
-          <i class="ri-arrow-drop-down-line toggle-btn"></i>
-        </div>
-        <div class="box-bottom">
-          <p>
-            Bienvenue sur AVEC AMOUR ! Nous vous proposons une très large
-            sélection de produits sélectionnés par nos soins parmi ce qui se
-            fait de mieux dans le monde. Les meilleurs prix du marché, du
-            réassort fréquent et un service imbattable. 🚗
-            <br />
-            <br />
-            Livraisons/Meetup dans toute l'Ile de France, le jour même,envois de
-            France à France ou à l'international avec suivis,preuves de dépôts
-            et assurances. 📦
-          </p>
-        </div>
-      </div>
     </div>
 
-    <footer>
-      <div class="footer-details">
-        <a href="/">
-          <div class="footer-elem">
-            <i class="ri-home-5-line"></i>
-            <p>Accueil</p>
-          </div>
-        </a>
-        <a href="./products.html">
-          <div class="footer-elem">
-            <i class="ri-shopping-bag-4-line"></i>
-            <p>Produits</p>
-          </div>
-        </a>
-        <a href="./catecogry.html">
-          <div class="footer-elem">
-            <i class="ri-book-shelf-line"></i>
-            <p>Catégories</p>
-          </div>
-        </a>
-        <a href="./contact.html">
-          <div class="footer-elem">
-            <i class="ri-mail-line"></i>
-            <p>Contact</p>
-          </div>
-        </a>
-      </div>
-    </footer>
-
     <script>
-      document.querySelectorAll(".toggle-btn").forEach((btn) => {
-        btn.addEventListener("click", function () {
-          const box = this.closest(".box");
-          box.classList.toggle("active");
+        // Redirection automatique après 5 secondes
+        let countdown = 5;
+        const countdownElement = document.getElementById('countdown');
+        
+        const timer = setInterval(() => {
+            countdown--;
+            countdownElement.textContent = countdown;
+            
+            if (countdown <= 0) {
+                clearInterval(timer);
+                window.location.href = 'admin.html';
+            }
+        }, 1000);
+
+        // Redirection immédiate si clic sur le bouton
+        document.querySelector('.admin-button').addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = 'admin.html';
         });
-      });
     </script>
-  </body>
+</body>
 </html>

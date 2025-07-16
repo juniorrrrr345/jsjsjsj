@@ -1,2 +1,5 @@
 /admin    /admin.html   200
+/products /admin.html   301
+/catecogry /admin.html   301
+/contact /admin.html   301
 /*        /index.html   200

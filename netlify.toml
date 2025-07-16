@@ -8,6 +8,21 @@
   status = 200
 
 [[redirects]]
+  from = "/products"
+  to = "/admin.html"
+  status = 301
+
+[[redirects]]
+  from = "/catecogry"
+  to = "/admin.html"
+  status = 301
+
+[[redirects]]
+  from = "/contact"
+  to = "/admin.html"
+  status = 301
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200

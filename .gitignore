@@ -7,6 +7,9 @@ yarn-error.log*
 # Vercel
 .vercel
 
+# Netlify
+.netlify
+
 # Environment variables
 .env
 .env.local
