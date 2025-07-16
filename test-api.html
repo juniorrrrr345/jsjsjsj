@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test API - AVEC AMOUR</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .test-section {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #218838;
+        }
+        .result {
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            white-space: pre-wrap;
+        }
+        .success { color: #28a745; }
+        .error { color: #dc3545; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test API Partagée - AVEC AMOUR</h1>
+    
+    <div class="test-section">
+        <h2>Test de l'API JavaScript partagée</h2>
+        <p>Cette page teste l'API JavaScript qui remplace l'API PHP pour Netlify.</p>
+        
+        <button onclick="testGetProducts()">Test GET Products</button>
+        <button onclick="testCreateProduct()">Test CREATE Product</button>
+        <button onclick="testUpdateProduct()">Test UPDATE Product</button>
+        <button onclick="testDeleteProduct()">Test DELETE Product</button>
+        <button onclick="testStats()">Test Stats</button>
+        <button onclick="clearStorage()">Clear Storage</button>
+        
+        <div id="results"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Accès au Panel Admin</h2>
+        <p>Une fois les tests passés, vous pouvez accéder au panel admin complet :</p>
+        <a href="admin.html" style="color: #28a745; text-decoration: none; font-weight: bold;">→ Ouvrir le Panel Admin</a>
+    </div>
+
+    <script src="admin-api-shared.js"></script>
+    <script>
+        function log(message, type = 'info') {
+            const results = document.getElementById('results');
+            const div = document.createElement('div');
+            div.className = `result ${type}`;
+            div.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            results.appendChild(div);
+            results.scrollTop = results.scrollHeight;
+        }
+
+        async function testGetProducts() {
+            try {
+                log('Testing GET products...');
+                const response = await fetchSharedAPI('./admin-api-shared.js?page=1&limit=10');
+                const data = await response.json();
+                log(`✅ Success: Found ${data.products.length} products`, 'success');
+                log(`Data: ${JSON.stringify(data, null, 2)}`);
+            } catch (error) {
+                log(`❌ Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testCreateProduct() {
+            try {
+                log('Testing CREATE product...');
+                const formData = new FormData();
+                formData.append('product_name', 'Test Product');
+                formData.append('price', '99.99');
+                formData.append('weight', '10');
+                formData.append('category', 'TEST');
+                formData.append('country', 'TEST COUNTRY');
+                formData.append('description', 'Test product description');
+
+                const response = await fetchSharedAPI('./admin-api-shared.js', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                log(`✅ Success: Product created with ID ${data.id}`, 'success');
+                log(`Data: ${JSON.stringify(data, null, 2)}`);
+            } catch (error) {
+                log(`❌ Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testUpdateProduct() {
+            try {
+                log('Testing UPDATE product...');
+                const formData = new FormData();
+                formData.append('id', '1');
+                formData.append('product_name', 'Updated Test Product');
+                formData.append('price', '149.99');
+                formData.append('weight', '15');
+                formData.append('category', 'UPDATED');
+                formData.append('country', 'UPDATED COUNTRY');
+                formData.append('description', 'Updated test product description');
+
+                const response = await fetchSharedAPI('./admin-api-shared.js', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                log(`✅ Success: Product updated`, 'success');
+                log(`Data: ${JSON.stringify(data, null, 2)}`);
+            } catch (error) {
+                log(`❌ Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testDeleteProduct() {
+            try {
+                log('Testing DELETE product...');
+                const response = await fetchSharedAPI('./admin-api-shared.js', {
+                    method: 'DELETE',
+                    body: 'id=2'
+                });
+                const data = await response.json();
+                log(`✅ Success: Product deleted`, 'success');
+                log(`Data: ${JSON.stringify(data, null, 2)}`);
+            } catch (error) {
+                log(`❌ Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testStats() {
+            try {
+                log('Testing Stats...');
+                const stats = await sharedAPI.getStats();
+                log(`✅ Success: Stats retrieved`, 'success');
+                log(`Stats: ${JSON.stringify(stats, null, 2)}`);
+            } catch (error) {
+                log(`❌ Error: ${error.message}`, 'error');
+            }
+        }
+
+        function clearStorage() {
+            localStorage.removeItem('avec_amour_products');
+            localStorage.removeItem('avec_amour_sync_timestamp');
+            log('✅ Storage cleared', 'success');
+        }
+
+        // Test automatique au chargement
+        window.addEventListener('load', () => {
+            log('🚀 API Test Page Loaded');
+            log('Click buttons above to test the API functions');
+        });
+    </script>
+</body>
+</html>

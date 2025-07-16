@@ -4,9 +4,9 @@
   "description": "Site web AVEC AMOUR - E-commerce et services",
   "main": "index.html",
   "scripts": {
-    "dev": "vercel dev",
+    "dev": "echo 'Development server not needed for static site'",
     "build": "echo 'Build completed'",
-    "start": "vercel dev",
+    "start": "echo 'Static site - no server needed'",
     "netlify-build": "echo 'Netlify build completed'"
   },
   "keywords": [

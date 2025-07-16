@@ -1,5 +1,5 @@
 // Configuration
-const API_BASE_URL = './admin-api.js';
+const API_BASE_URL = './admin-api-shared.js';
 const ADMIN_CREDENTIALS = {
     username: 'admin',
     password: 'admin123'
@@ -134,7 +134,7 @@ function switchSection(sectionName) {
 // Gestion des produits
 async function loadProducts() {
     try {
-        const response = await fetchAPI(`${API_BASE_URL}?page=1&limit=100`);
+        const response = await fetchSharedAPI(`${API_BASE_URL}?page=1&limit=100`);
         const data = await response.json();
         
         if (data.products) {
@@ -292,7 +292,7 @@ async function handleProductSubmit(e) {
     }
 
     try {
-        const response = await fetchAPI(API_BASE_URL, {
+        const response = await fetchSharedAPI(API_BASE_URL, {
             method: 'POST',
             body: formData
         });
@@ -338,7 +338,7 @@ async function confirmDeleteProduct() {
     const productId = modal.dataset.productId;
 
     try {
-        const response = await fetchAPI(API_BASE_URL, {
+        const response = await fetchSharedAPI(API_BASE_URL, {
             method: 'DELETE',
             body: `id=${productId}`
         });
@@ -362,19 +362,12 @@ async function confirmDeleteProduct() {
 // Statistiques
 async function updateStats() {
     try {
-        const response = await fetchAPI(`${API_BASE_URL}?page=1&limit=1000`);
-        const data = await response.json();
+        const stats = await sharedAPI.getStats();
         
-        if (data.products) {
-            const totalProducts = data.products.length;
-            const totalCategories = new Set(data.products.map(p => p.category)).size;
-            const totalRevenue = data.products.reduce((sum, p) => sum + (parseFloat(p.price) || 0), 0);
-
-            document.getElementById('totalProducts').textContent = totalProducts;
-            document.getElementById('totalCategories').textContent = totalCategories;
-            document.getElementById('totalOrders').textContent = '0'; // À implémenter
-            document.getElementById('totalRevenue').textContent = `${totalRevenue.toFixed(2)}€`;
-        }
+        document.getElementById('totalProducts').textContent = stats.totalProducts;
+        document.getElementById('totalCategories').textContent = stats.totalCategories;
+        document.getElementById('totalOrders').textContent = '0'; // À implémenter
+        document.getElementById('totalRevenue').textContent = `${stats.totalValue}€`;
     } catch (error) {
         console.error('Erreur lors du chargement des statistiques:', error);
     }

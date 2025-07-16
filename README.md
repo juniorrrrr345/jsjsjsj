@@ -9,6 +9,7 @@ Ce repository contient uniquement le **Panel Administrateur** pour AVEC AMOUR. L
 ### Accès direct
 - **URL principale** : `https://votre-site.netlify.app`
 - **Panel Admin** : `https://votre-site.netlify.app/admin`
+- **Test API** : `https://votre-site.netlify.app/test-api.html`
 
 ### Identifiants de connexion
 - **Username** : `admin`
