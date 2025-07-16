@@ -1,0 +1,355 @@
+<?php
+// Vérifier si l'utilisateur est connecté en tant qu'admin
+session_start();
+
+// Si l'utilisateur n'est pas connecté, rediriger vers la page de login
+if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
+    header('Location: login.html');
+    exit();
+}
+
+// Si l'utilisateur est connecté, inclure le panel admin
+?>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#009CFF">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Admin Panel">
+    <title>Panel Administrateur - AVEC AMOUR</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-screen" style="display: none;">
+        <div class="login-container">
+            <div class="login-header">
+                <h1 class="gradient-text">AVEC AMOUR</h1>
+                <p>Panel Administrateur</p>
+            </div>
+            <div class="login-form">
+                <div class="input-group">
+                    <i class="ri-user-line"></i>
+                    <input type="text" id="username" placeholder="Nom d'utilisateur" value="<?php echo htmlspecialchars($_SESSION['admin_username']); ?>" readonly>
+                </div>
+                <div class="input-group">
+                    <i class="ri-check-line"></i>
+                    <input type="text" value="✅ Connecté en tant qu'admin" readonly style="background: #28a745; color: white;">
+                </div>
+                <button type="button" class="login-btn" onclick="showDashboard()">
+                    <i class="ri-login-box-line"></i>
+                    Accéder au Panel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="dashboard" class="dashboard" style="display: none;">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-left">
+                <h1 class="gradient-text">AVEC AMOUR</h1>
+                <p>Panel Administrateur - <?php echo htmlspecialchars($_SESSION['admin_username']); ?></p>
+            </div>
+            <div class="header-right">
+                <button id="logoutBtn" class="logout-btn" onclick="logout()">
+                    <i class="ri-logout-box-line"></i>
+                    Déconnexion
+                </button>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="dashboard-nav">
+            <button class="nav-btn active" data-section="products">
+                <i class="ri-shopping-bag-4-line"></i>
+                Produits
+            </button>
+            <button class="nav-btn" data-section="categories">
+                <i class="ri-book-shelf-line"></i>
+                Catégories
+            </button>
+            <button class="nav-btn" data-section="stats">
+                <i class="ri-bar-chart-line"></i>
+                Statistiques
+            </button>
+            <button class="nav-btn" data-section="social">
+                <i class="ri-share-line"></i>
+                Réseaux Sociaux
+            </button>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="dashboard-content">
+            <!-- Products Section -->
+            <section id="products" class="content-section active">
+                <div class="section-header">
+                    <h2>Gestion des Produits</h2>
+                    <button id="addProductBtn" class="add-btn">
+                        <i class="ri-add-line"></i>
+                        Ajouter un produit
+                    </button>
+                </div>
+
+                <div class="search-bar">
+                    <i class="ri-search-line"></i>
+                    <input type="text" id="productSearch" placeholder="Rechercher un produit...">
+                </div>
+
+                <div class="products-grid" id="productsGrid">
+                    <!-- Products will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Categories Section -->
+            <section id="categories" class="content-section">
+                <div class="section-header">
+                    <h2>Gestion des Catégories</h2>
+                    <button id="addCategoryBtn" class="add-btn">
+                        <i class="ri-add-line"></i>
+                        Ajouter une catégorie
+                    </button>
+                </div>
+                <div class="categories-list" id="categoriesList">
+                    <!-- Categories will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Stats Section -->
+            <section id="stats" class="content-section">
+                <div class="section-header">
+                    <h2>Statistiques</h2>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="ri-shopping-bag-4-line"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="totalProducts">0</h3>
+                            <p>Produits</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="ri-book-shelf-line"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="totalCategories">0</h3>
+                            <p>Catégories</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="ri-shopping-cart-line"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="totalOrders">0</h3>
+                            <p>Commandes</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="ri-money-euro-circle-line"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="totalRevenue">0€</h3>
+                            <p>Revenus</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Social Media Section -->
+            <section id="social" class="content-section">
+                <div class="section-header">
+                    <h2>Configuration des Réseaux Sociaux</h2>
+                    <button id="saveSocialBtn" class="add-btn">
+                        <i class="ri-save-line"></i>
+                        Sauvegarder
+                    </button>
+                </div>
+                <div class="social-config">
+                    <div class="social-grid">
+                        <div class="social-item">
+                            <div class="social-header">
+                                <i class="ri-facebook-circle-line"></i>
+                                <h3>Facebook</h3>
+                            </div>
+                            <div class="social-input">
+                                <label for="facebookUrl">URL de la page Facebook</label>
+                                <input type="url" id="facebookUrl" placeholder="https://facebook.com/votre-page">
+                            </div>
+                        </div>
+                        
+                        <div class="social-item">
+                            <div class="social-header">
+                                <i class="ri-instagram-line"></i>
+                                <h3>Instagram</h3>
+                            </div>
+                            <div class="social-input">
+                                <label for="instagramUrl">URL du profil Instagram</label>
+                                <input type="url" id="instagramUrl" placeholder="https://instagram.com/votre-profil">
+                            </div>
+                        </div>
+                        
+                        <div class="social-item">
+                            <div class="social-header">
+                                <i class="ri-twitter-line"></i>
+                                <h3>Twitter/X</h3>
+                            </div>
+                            <div class="social-input">
+                                <label for="twitterUrl">URL du profil Twitter</label>
+                                <input type="url" id="twitterUrl" placeholder="https://twitter.com/votre-profil">
+                            </div>
+                        </div>
+                        
+                        <div class="social-item">
+                            <div class="social-header">
+                                <i class="ri-linkedin-box-line"></i>
+                                <h3>LinkedIn</h3>
+                            </div>
+                            <div class="social-input">
+                                <label for="linkedinUrl">URL du profil LinkedIn</label>
+                                <input type="url" id="linkedinUrl" placeholder="https://linkedin.com/in/votre-profil">
+                            </div>
+                        </div>
+                        
+                        <div class="social-item">
+                            <div class="social-header">
+                                <i class="ri-youtube-line"></i>
+                                <h3>YouTube</h3>
+                            </div>
+                            <div class="social-input">
+                                <label for="youtubeUrl">URL de la chaîne YouTube</label>
+                                <input type="url" id="youtubeUrl" placeholder="https://youtube.com/@votre-chaine">
+                            </div>
+                        </div>
+                        
+                        <div class="social-item">
+                            <div class="social-header">
+                                <i class="ri-whatsapp-line"></i>
+                                <h3>WhatsApp</h3>
+                            </div>
+                            <div class="social-input">
+                                <label for="whatsappNumber">Numéro WhatsApp</label>
+                                <input type="tel" id="whatsappNumber" placeholder="+212 6 12 34 56 78">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Product Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Ajouter un produit</h3>
+                <button class="close-btn" id="closeModal">
+                    <i class="ri-close-line"></i>
+                </button>
+            </div>
+            <form id="productForm" class="product-form">
+                <input type="hidden" id="productId">
+                
+                <div class="form-group">
+                    <label for="productName">Nom du produit</label>
+                    <input type="text" id="productName" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="productPrice">Prix (€)</label>
+                        <input type="number" id="productPrice" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="productWeight">Poids (g)</label>
+                        <input type="text" id="productWeight" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="productCategory">Catégorie</label>
+                    <input type="text" id="productCategory" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="productCountry">Pays d'origine</label>
+                    <input type="text" id="productCountry" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="productDescription">Description</label>
+                    <textarea id="productDescription" rows="4" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="productImage">Image</label>
+                    <input type="file" id="productImage" accept="image/*">
+                    <div id="imagePreview" class="image-preview"></div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="cancel-btn" id="cancelProduct">Annuler</button>
+                    <button type="submit" class="save-btn">
+                        <i class="ri-save-line"></i>
+                        Enregistrer
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content delete-modal">
+            <div class="modal-header">
+                <h3>Confirmer la suppression</h3>
+                <button class="close-btn" id="closeDeleteModal">
+                    <i class="ri-close-line"></i>
+                </button>
+            </div>
+            <div class="delete-content">
+                <i class="ri-error-warning-line"></i>
+                <p>Êtes-vous sûr de vouloir supprimer ce produit ?</p>
+                <p class="delete-product-name"></p>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="cancel-btn" id="cancelDelete">Annuler</button>
+                <button type="button" class="delete-btn" id="confirmDelete">
+                    <i class="ri-delete-bin-line"></i>
+                    Supprimer
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+    <script>
+        // Fonction pour afficher le dashboard directement
+        function showDashboard() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'flex';
+            loadProducts();
+            updateStats();
+        }
+        
+        // Fonction de déconnexion
+        function logout() {
+            window.location.href = 'logout.php';
+        }
+        
+        // Afficher le dashboard directement car l'utilisateur est connecté
+        document.addEventListener('DOMContentLoaded', function() {
+            showDashboard();
+        });
+    </script>
+</body>
+</html>

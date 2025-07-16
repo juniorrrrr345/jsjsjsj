@@ -1,9 +1,28 @@
 RewriteEngine On
 
-# Handle Angular and React Router
+# Masquer la boutique - rediriger vers login admin
+RewriteRule ^index\.html$ /login.html [R=301,L]
+RewriteRule ^index\.php$ /login.html [R=301,L]
+RewriteRule ^products\.html$ /login.html [R=301,L]
+RewriteRule ^productcard\.html$ /login.html [R=301,L]
+
+# Permettre l'accès aux fichiers admin
+RewriteCond %{REQUEST_URI} !^/admin\.html
+RewriteCond %{REQUEST_URI} !^/login\.html
+RewriteCond %{REQUEST_URI} !^/admin_login\.php
+RewriteCond %{REQUEST_URI} !^/products_api\.php
+RewriteCond %{REQUEST_URI} !^/categories_api\.php
+RewriteCond %{REQUEST_URI} !^/admin\.css
+RewriteCond %{REQUEST_URI} !^/admin\.js
+RewriteCond %{REQUEST_URI} !^/uploads/
+RewriteCond %{REQUEST_URI} !^/functions/
+RewriteCond %{REQUEST_URI} !^/mobile_test\.html
+RewriteCond %{REQUEST_URI} !^/test_simple\.html
+RewriteCond %{REQUEST_URI} !^/test_admin\.html
+RewriteCond %{REQUEST_URI} !^/index_admin\.html
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ /index.html [L]
+RewriteRule ^(.*)$ /login.html [R=301,L]
 
 # Security headers
 Header always set X-Content-Type-Options nosniff

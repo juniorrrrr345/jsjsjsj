@@ -4,7 +4,7 @@
 
 [[redirects]]
   from = "/"
-  to = "/index_admin.html"
+  to = "/login.html"
   status = 301
 
 [[redirects]]
@@ -25,6 +25,27 @@
 [[redirects]]
   from = "/mobile"
   to = "/mobile_test.html"
+  status = 301
+
+# Masquer la boutique
+[[redirects]]
+  from = "/index.html"
+  to = "/login.html"
+  status = 301
+
+[[redirects]]
+  from = "/index.php"
+  to = "/login.html"
+  status = 301
+
+[[redirects]]
+  from = "/products.html"
+  to = "/login.html"
+  status = 301
+
+[[redirects]]
+  from = "/productcard.html"
+  to = "/login.html"
   status = 301
 
 [[headers]]
