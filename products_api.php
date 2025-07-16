@@ -135,11 +135,25 @@ if ($method === 'PUT') {
 }
 
 if ($method === 'DELETE') {
-    parse_str(file_get_contents('php://input'), $_DELETE);
+    // Récupérer les données depuis le body de la requête
+    $input = file_get_contents('php://input');
+    parse_str($input, $_DELETE);
     $id = (int)($_DELETE['id'] ?? 0);
+    
+    if ($id <= 0) {
+        http_response_code(400);
+        echo json_encode(['error' => 'ID invalide']);
+        exit();
+    }
+    
     $sql = "DELETE FROM products WHERE id=$id";
     if ($conn->query($sql)) {
-        echo json_encode(['success' => true]);
+        if ($conn->affected_rows > 0) {
+            echo json_encode(['success' => true]);
+        } else {
+            http_response_code(404);
+            echo json_encode(['error' => 'Produit non trouvé']);
+        }
     } else {
         http_response_code(500);
         echo json_encode(['error' => $conn->error]);

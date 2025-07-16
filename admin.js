@@ -1,5 +1,6 @@
 // Configuration
 const API_BASE_URL = './products_api.php';
+const CATEGORIES_API_URL = './categories_api.php';
 const ADMIN_CREDENTIALS = {
     username: 'admin',
     password: 'admin123'
@@ -52,6 +53,12 @@ function setupEventListeners() {
     document.getElementById('addProductBtn').addEventListener('click', () => openProductModal());
     productSearch.addEventListener('input', debounce(handleProductSearch, 300));
     productForm.addEventListener('submit', handleProductSubmit);
+
+    // Réseaux sociaux
+    document.getElementById('saveSocialBtn').addEventListener('click', handleSocialSave);
+
+    // Catégories
+    document.getElementById('addCategoryBtn').addEventListener('click', openCategoryModal);
 
     // Modals
     document.getElementById('closeModal').addEventListener('click', closeProductModal);
@@ -126,8 +133,12 @@ function switchSection(sectionName) {
     // Charger les données si nécessaire
     if (sectionName === 'products' && products.length === 0) {
         loadProducts();
+    } else if (sectionName === 'categories') {
+        loadCategories();
     } else if (sectionName === 'stats') {
         updateStats();
+    } else if (sectionName === 'social') {
+        loadSocialConfig();
     }
 }
 
@@ -442,3 +453,152 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
+
+// Gestion des réseaux sociaux
+function loadSocialConfig() {
+    // Charger la configuration depuis localStorage
+    const socialConfig = JSON.parse(localStorage.getItem('socialConfig') || '{}');
+    
+    // Remplir les champs avec les valeurs sauvegardées
+    document.getElementById('facebookUrl').value = socialConfig.facebook || '';
+    document.getElementById('instagramUrl').value = socialConfig.instagram || '';
+    document.getElementById('twitterUrl').value = socialConfig.twitter || '';
+    document.getElementById('linkedinUrl').value = socialConfig.linkedin || '';
+    document.getElementById('youtubeUrl').value = socialConfig.youtube || '';
+    document.getElementById('whatsappNumber').value = socialConfig.whatsapp || '';
+}
+
+function handleSocialSave() {
+    const socialConfig = {
+        facebook: document.getElementById('facebookUrl').value,
+        instagram: document.getElementById('instagramUrl').value,
+        twitter: document.getElementById('twitterUrl').value,
+        linkedin: document.getElementById('linkedinUrl').value,
+        youtube: document.getElementById('youtubeUrl').value,
+        whatsapp: document.getElementById('whatsappNumber').value
+    };
+
+    // Sauvegarder dans localStorage
+    localStorage.setItem('socialConfig', JSON.stringify(socialConfig));
+    
+    showNotification('Configuration des réseaux sociaux sauvegardée avec succès', 'success');
+}
+
+// Gestion des catégories
+async function loadCategories() {
+    try {
+        const response = await fetch(CATEGORIES_API_URL);
+        const data = await response.json();
+        
+        if (data.categories) {
+            categories = data.categories;
+            renderCategories(categories);
+        }
+    } catch (error) {
+        console.error('Erreur lors du chargement des catégories:', error);
+        showNotification('Erreur lors du chargement des catégories', 'error');
+    }
+}
+
+function renderCategories(categoriesToRender) {
+    const categoriesList = document.getElementById('categoriesList');
+    categoriesList.innerHTML = '';
+
+    if (categoriesToRender.length === 0) {
+        categoriesList.innerHTML = '<p class="placeholder-text">Aucune catégorie trouvée</p>';
+        return;
+    }
+
+    categoriesToRender.forEach(category => {
+        const card = createCategoryCard(category);
+        categoriesList.appendChild(card);
+    });
+}
+
+function createCategoryCard(category) {
+    const card = document.createElement('div');
+    card.className = 'category-card';
+    
+    card.innerHTML = `
+        <div class="category-info">
+            <div class="category-icon">
+                <i class="ri-book-shelf-line"></i>
+            </div>
+            <div class="category-details">
+                <h3 class="category-name">${category}</h3>
+                <p class="category-count">0 produits</p>
+            </div>
+        </div>
+        <div class="category-actions">
+            <button class="action-btn delete-btn" onclick="deleteCategory('${category}')">
+                <i class="ri-delete-bin-line"></i>
+                Supprimer
+            </button>
+        </div>
+    `;
+
+    return card;
+}
+
+function openCategoryModal() {
+    const categoryName = prompt('Entrez le nom de la nouvelle catégorie:');
+    
+    if (categoryName && categoryName.trim()) {
+        addCategory(categoryName.trim());
+    }
+}
+
+async function addCategory(categoryName) {
+    try {
+        const formData = new FormData();
+        formData.append('category_name', categoryName);
+
+        const response = await fetch(CATEGORIES_API_URL, {
+            method: 'POST',
+            body: formData
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            showNotification('Catégorie ajoutée avec succès', 'success');
+            loadCategories();
+            updateStats();
+        } else {
+            showNotification(result.error || 'Erreur lors de l\'ajout de la catégorie', 'error');
+        }
+    } catch (error) {
+        console.error('Erreur:', error);
+        showNotification('Erreur lors de l\'ajout de la catégorie', 'error');
+    }
+}
+
+async function deleteCategory(categoryName) {
+    if (!confirm(`Êtes-vous sûr de vouloir supprimer la catégorie "${categoryName}" ? Tous les produits de cette catégorie seront également supprimés.`)) {
+        return;
+    }
+
+    try {
+        const response = await fetch(CATEGORIES_API_URL, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `category_name=${encodeURIComponent(categoryName)}`
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            showNotification(`Catégorie "${categoryName}" supprimée avec succès`, 'success');
+            loadCategories();
+            loadProducts();
+            updateStats();
+        } else {
+            showNotification(result.error || 'Erreur lors de la suppression de la catégorie', 'error');
+        }
+    } catch (error) {
+        console.error('Erreur:', error);
+        showNotification('Erreur lors de la suppression de la catégorie', 'error');
+    }
+}

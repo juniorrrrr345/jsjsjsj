@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Admin Panel</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; border-radius: 5px; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; }
+        button { padding: 10px 15px; margin: 5px; border: none; border-radius: 5px; cursor: pointer; }
+        .btn-primary { background-color: #007bff; color: white; }
+        .btn-danger { background-color: #dc3545; color: white; }
+        .btn-success { background-color: #28a745; color: white; }
+    </style>
+</head>
+<body>
+    <h1>Test du Panel Administrateur</h1>
+    
+    <div class="test-section">
+        <h2>Test de l'API Produits</h2>
+        <button class="btn-primary" onclick="testGetProducts()">Tester GET Produits</button>
+        <button class="btn-success" onclick="testAddProduct()">Tester Ajout Produit</button>
+        <button class="btn-danger" onclick="testDeleteProduct()">Tester Suppression Produit</button>
+        <div id="productsResult"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test de l'API Catégories</h2>
+        <button class="btn-primary" onclick="testGetCategories()">Tester GET Catégories</button>
+        <button class="btn-success" onclick="testAddCategory()">Tester Ajout Catégorie</button>
+        <button class="btn-danger" onclick="testDeleteCategory()">Tester Suppression Catégorie</button>
+        <div id="categoriesResult"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Liens</h2>
+        <a href="admin.html" target="_blank">Ouvrir le Panel Admin</a>
+    </div>
+
+    <script>
+        async function testGetProducts() {
+            try {
+                const response = await fetch('./products_api.php?page=1&limit=5');
+                const data = await response.json();
+                document.getElementById('productsResult').innerHTML = 
+                    `<div class="success">✅ Succès: ${data.products?.length || 0} produits récupérés</div>`;
+            } catch (error) {
+                document.getElementById('productsResult').innerHTML = 
+                    `<div class="error">❌ Erreur: ${error.message}</div>`;
+            }
+        }
+
+        async function testAddProduct() {
+            try {
+                const formData = new FormData();
+                formData.append('product_name', 'Produit Test');
+                formData.append('price', '99.99');
+                formData.append('weight', '100');
+                formData.append('category', 'Test');
+                formData.append('country', 'France');
+                formData.append('description', 'Description de test');
+
+                const response = await fetch('./products_api.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('productsResult').innerHTML = 
+                        `<div class="success">✅ Produit ajouté avec succès (ID: ${data.id})</div>`;
+                } else {
+                    document.getElementById('productsResult').innerHTML = 
+                        `<div class="error">❌ Erreur: ${data.error}</div>`;
+                }
+            } catch (error) {
+                document.getElementById('productsResult').innerHTML = 
+                    `<div class="error">❌ Erreur: ${error.message}</div>`;
+            }
+        }
+
+        async function testDeleteProduct() {
+            const productId = prompt('Entrez l\'ID du produit à supprimer:');
+            if (!productId) return;
+            
+            try {
+                const response = await fetch('./products_api.php', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `id=${productId}`
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('productsResult').innerHTML = 
+                        `<div class="success">✅ Produit supprimé avec succès</div>`;
+                } else {
+                    document.getElementById('productsResult').innerHTML = 
+                        `<div class="error">❌ Erreur: ${data.error}</div>`;
+                }
+            } catch (error) {
+                document.getElementById('productsResult').innerHTML = 
+                    `<div class="error">❌ Erreur: ${error.message}</div>`;
+            }
+        }
+
+        async function testGetCategories() {
+            try {
+                const response = await fetch('./categories_api.php');
+                const data = await response.json();
+                document.getElementById('categoriesResult').innerHTML = 
+                    `<div class="success">✅ Succès: ${data.categories?.length || 0} catégories récupérées</div>`;
+            } catch (error) {
+                document.getElementById('categoriesResult').innerHTML = 
+                    `<div class="error">❌ Erreur: ${error.message}</div>`;
+            }
+        }
+
+        async function testAddCategory() {
+            const categoryName = prompt('Entrez le nom de la catégorie:');
+            if (!categoryName) return;
+            
+            try {
+                const formData = new FormData();
+                formData.append('category_name', categoryName);
+
+                const response = await fetch('./categories_api.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('categoriesResult').innerHTML = 
+                        `<div class="success">✅ Catégorie ajoutée avec succès</div>`;
+                } else {
+                    document.getElementById('categoriesResult').innerHTML = 
+                        `<div class="error">❌ Erreur: ${data.error}</div>`;
+                }
+            } catch (error) {
+                document.getElementById('categoriesResult').innerHTML = 
+                    `<div class="error">❌ Erreur: ${error.message}</div>`;
+            }
+        }
+
+        async function testDeleteCategory() {
+            const categoryName = prompt('Entrez le nom de la catégorie à supprimer:');
+            if (!categoryName) return;
+            
+            try {
+                const response = await fetch('./categories_api.php', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `category_name=${encodeURIComponent(categoryName)}`
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('categoriesResult').innerHTML = 
+                        `<div class="success">✅ Catégorie supprimée avec succès</div>`;
+                } else {
+                    document.getElementById('categoriesResult').innerHTML = 
+                        `<div class="error">❌ Erreur: ${data.error}</div>`;
+                }
+            } catch (error) {
+                document.getElementById('categoriesResult').innerHTML = 
+                    `<div class="error">❌ Erreur: ${error.message}</div>`;
+            }
+        }
+    </script>
+</body>
+</html>

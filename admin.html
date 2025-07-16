@@ -59,13 +59,13 @@
                 <i class="ri-book-shelf-line"></i>
                 Catégories
             </button>
-            <button class="nav-btn" data-section="orders">
-                <i class="ri-shopping-cart-line"></i>
-                Commandes
-            </button>
             <button class="nav-btn" data-section="stats">
                 <i class="ri-bar-chart-line"></i>
                 Statistiques
+            </button>
+            <button class="nav-btn" data-section="social">
+                <i class="ri-share-line"></i>
+                Réseaux Sociaux
             </button>
         </nav>
 
@@ -102,16 +102,6 @@
                 </div>
                 <div class="categories-list" id="categoriesList">
                     <!-- Categories will be loaded here -->
-                </div>
-            </section>
-
-            <!-- Orders Section -->
-            <section id="orders" class="content-section">
-                <div class="section-header">
-                    <h2>Gestion des Commandes</h2>
-                </div>
-                <div class="orders-list" id="ordersList">
-                    <p class="placeholder-text">Aucune commande pour le moment</p>
                 </div>
             </section>
 
@@ -155,6 +145,86 @@
                         <div class="stat-content">
                             <h3 id="totalRevenue">0€</h3>
                             <p>Revenus</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Social Media Section -->
+            <section id="social" class="content-section">
+                <div class="section-header">
+                    <h2>Configuration des Réseaux Sociaux</h2>
+                    <button id="saveSocialBtn" class="add-btn">
+                        <i class="ri-save-line"></i>
+                        Sauvegarder
+                    </button>
+                </div>
+                <div class="social-config">
+                    <div class="social-grid">
+                        <div class="social-item">
+                            <div class="social-header">
+                                <i class="ri-facebook-circle-line"></i>
+                                <h3>Facebook</h3>
+                            </div>
+                            <div class="social-input">
+                                <label for="facebookUrl">URL de la page Facebook</label>
+                                <input type="url" id="facebookUrl" placeholder="https://facebook.com/votre-page">
+                            </div>
+                        </div>
+                        
+                        <div class="social-item">
+                            <div class="social-header">
+                                <i class="ri-instagram-line"></i>
+                                <h3>Instagram</h3>
+                            </div>
+                            <div class="social-input">
+                                <label for="instagramUrl">URL du profil Instagram</label>
+                                <input type="url" id="instagramUrl" placeholder="https://instagram.com/votre-profil">
+                            </div>
+                        </div>
+                        
+                        <div class="social-item">
+                            <div class="social-header">
+                                <i class="ri-twitter-line"></i>
+                                <h3>Twitter/X</h3>
+                            </div>
+                            <div class="social-input">
+                                <label for="twitterUrl">URL du profil Twitter</label>
+                                <input type="url" id="twitterUrl" placeholder="https://twitter.com/votre-profil">
+                            </div>
+                        </div>
+                        
+                        <div class="social-item">
+                            <div class="social-header">
+                                <i class="ri-linkedin-box-line"></i>
+                                <h3>LinkedIn</h3>
+                            </div>
+                            <div class="social-input">
+                                <label for="linkedinUrl">URL du profil LinkedIn</label>
+                                <input type="url" id="linkedinUrl" placeholder="https://linkedin.com/in/votre-profil">
+                            </div>
+                        </div>
+                        
+                        <div class="social-item">
+                            <div class="social-header">
+                                <i class="ri-youtube-line"></i>
+                                <h3>YouTube</h3>
+                            </div>
+                            <div class="social-input">
+                                <label for="youtubeUrl">URL de la chaîne YouTube</label>
+                                <input type="url" id="youtubeUrl" placeholder="https://youtube.com/@votre-chaine">
+                            </div>
+                        </div>
+                        
+                        <div class="social-item">
+                            <div class="social-header">
+                                <i class="ri-whatsapp-line"></i>
+                                <h3>WhatsApp</h3>
+                            </div>
+                            <div class="social-input">
+                                <label for="whatsappNumber">Numéro WhatsApp</label>
+                                <input type="tel" id="whatsappNumber" placeholder="+212 6 12 34 56 78">
+                            </div>
                         </div>
                     </div>
                 </div>
