@@ -32,7 +32,7 @@ if ($username && $password) {
             // Success: set session and redirect
             $_SESSION['admin_id'] = $id;
             $_SESSION['admin_username'] = $username;
-            header('Location: admin-dashboard/index.php'); // Redirect to admin dashboard
+            header('Location: admin.html'); // Redirect to our corrected admin panel
             exit();
         }
     }
